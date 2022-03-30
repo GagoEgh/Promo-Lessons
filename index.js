@@ -9,7 +9,7 @@ Array.prototype.myForEach = function (back) {
 
 arr.myForEach(
 	(item) => {
-	console.log(item)
+		console.log(item)
 	});
 
 
