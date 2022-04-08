@@ -1,55 +1,18 @@
-/* function loto() {
-	let arr = [];
-	for (let i = 0; i < 90; i++) {
-		arr.push(i)
-	}
-	return function rendomNum() {
-		let random = Math.floor(Math.random() * (arr.length - 1));
-		arr.splice(random, 1);
-		return arr[random];
-	}
+.table{
+	margin: 0 auto;
+	width: 1200px;
+	border: 1px solid rgb(222, 216, 216);
 }
 
-
-
-let lotoStart = loto();
-
-
-function createLoto() {
-	let lotoOnae = [
-		new Array(8), new Array(8), new Array(8)
-	]
-	for (let i = 0; i < 100; i++) {
-		for (let k = 0; k < lotoOnae.length; k++) {
-			let num = lotoStart()
-
-			for (let j = 0; j < lotoOnae[k].length; j++) {
-				let index = (Math.floor(num / 10));
-
-				if (num === lotoOnae[0][index] || num === lotoOnae[1][index] || num === lotoOnae[2][index]) {
-					break;
-				} else {
-
-					lotoOnae[k][index] = num;
-					if (k === 0 && index % 2 === 0) {
-						lotoOnae[k].splice(index, 1, 'empty');
-					}
-					if (k === 1 && index % 2 === 1) {
-						lotoOnae[k].splice(index, 1, 'empty');
-					}
-					if (k === 2 && (index % 3 === 0 || index === 8)) {
-						lotoOnae[k].splice(index, 1, 'empty');
-					}
-
-				}
-
-			}
-		}
-
-	}
-	return lotoOnae
+.th{
+	
+    font-size: 20px;
+	text-transform: capitalize;
 }
 
-
-console.log(createLoto()) */
+.th,.td{
+	border: 1px solid rgb(222, 216, 216);
+	text-align: center;
+	padding: 10px;
+}
 
