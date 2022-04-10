@@ -1,7 +1,11 @@
 
+
+
 class Table {
+
 	url = "https://jsonplaceholder.typicode.com/posts";
 	usersPost = [];
+
 	constructor() { }
 
 	getPost() {
@@ -18,17 +22,18 @@ class Table {
 	}
 
 	createTable() {
+
 		const table = document.createElement('table');
 		const thead = this.createThead();
 		const tbody = this.createTbody();
-		const body = document.body;
+		const parent = document.querySelector('.tableParent');
 		table.appendChild(thead);
-		this.clearPost();
+
 		table.appendChild(tbody);
 		table.classList.add('table')
-		body.appendChild(table);
+		parent.appendChild(table);
 
-		
+		this.clearPost();
 		console.log(table);
 	}
 
@@ -40,12 +45,13 @@ class Table {
 			for (let i = 0; i < keys.length; i++) {
 				const th = document.createElement('th');
 				th.textContent = keys[i];
-				th.classList.add('th')
+				th.classList.add('th');
+
 				tr.appendChild(th);
+
+
 			}
 		}
-
-
 		const thead = document.createElement('thead');
 		thead.append(tr);
 		return thead
@@ -57,49 +63,30 @@ class Table {
 		if (this.usersPost.length) {
 			for (let i = 0; i < this.usersPost.length; i++) {
 				const tr = document.createElement('tr');
-				const id = this.usersPost[i]['id'];
-				const values = Object.values(this.usersPost[i]);
-				const action = {
-					delete: 'imgs/box.png',
-					edit: 'imgs/edit.png',
-					eye: 'imgs/eye.png'
-				}
-				values.push(action);
-				this.createTd(values, tr, id);
+				tr.innerHTML = `
+				<tr>
+					<td class = "td">${this.usersPost[i].userId}</td>
+					<td class = "td">${this.usersPost[i].id}</td>
+					<td class = "td">${this.usersPost[i].title}</td>
+					<td class = "td">${this.usersPost[i].body}</td>
+					<td class = "td">
+						<img class="width delete" 
+							id = ${this.usersPost[i].id} src='imgs/box.png'>
+						<img class="width edit" data-edit = ${this.usersPost[i].id} src='imgs/edit.png'>
+						<img class="width eye" data-eye = ${this.usersPost[i].id} src='imgs/eye.png'>
+					</td>
+				</tr>`
 				tbody.appendChild(tr);
 			}
 		}
-
 		return tbody;
 	}
 
-	createTd(values, tr, id) {
-		for (let j = 0; j < values.length; j++) {
-			const td = document.createElement('td');
-			td.classList.add('td');
-
-			if (typeof values[j] === 'object') {
-				tr.append(this.createImg(td, values[j], id));
-
-			} else {
-				td.innerHTML = `<td>${values[j]}</td>`;
-				tr.append(td);
-			}
-		}
-	}
-
-	createImg(td, value, id) {
-		td.innerHTML = `
-		<td >
-			<img  class="width" id = ${id}  src = ${value.delete}>
-			<img class="width"  src = ${value.edit}>
-			<img class="width" src = ${value.eye}> 	
-		</td>`;
-		return td
-	}
 
 	clearPost() {
+
 		if (this.usersPost.length) {
+
 			for (let i = 0; i < this.usersPost.length; i++) {
 				const clear = document.getElementById(this.usersPost[i]['id']);
 
@@ -111,9 +98,11 @@ class Table {
 						.then(() => {
 							this.usersPost = this.usersPost.filter((item) => item.id != id)
 							console.log(this.usersPost);
+							this.createTbody()
 						})
 
 				})
+
 			}
 
 		}
@@ -124,17 +113,26 @@ const table = new Table();
 
 table.getPost();
 
+const form = document.forms.form;
 
-// const btn = document.getElementById('4');
-// btn.addEventListener('click',function(event){
-// 	id = event.target.id;
-// 	console.log(id)
-// 	fetch(`https://jsonplaceholder.typicode.com/posts/${id}`,{
-// 		method:'DELETE'
-// 	})
-// 	.then(res=>res.json)
-// 	.then(data=>{
+form.addEventListener('submit', function(event){
 
-// 		console.log(data)
-// 	})
-// })
+	const post = {
+		userId: form.elements.userId.value,
+		title: form.elements.name.value,
+		body: form.elements.body.value
+	}
+
+	fetch(`https://jsonplaceholder.typicode.com/posts`, {
+		method: post,
+		body: JSON.stringify(post),
+		headers: {
+			'Content-type': 'application/json; charset=UTF-8',
+		},
+	})
+	.then((response) => response.json())
+	.then((data) => {
+		table.usersPost.push(post)
+		console.log(data)
+	});
+});
