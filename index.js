@@ -30,11 +30,14 @@ class Table {
 		table.appendChild(thead);
 
 		table.appendChild(tbody);
-		table.classList.add('table')
+		table.classList.add('table');
+
+
+		parent.innerHTML = '';
 		parent.appendChild(table);
 
 		this.clearPost();
-		console.log(table);
+
 	}
 
 	createThead() {
@@ -97,8 +100,7 @@ class Table {
 						.then((res) => res.json())
 						.then(() => {
 							this.usersPost = this.usersPost.filter((item) => item.id != id)
-							console.log(this.usersPost);
-							this.createTbody()
+							this.createTable();
 						})
 
 				})
